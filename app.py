@@ -34,7 +34,7 @@ def resize_video(DEFAULT_WIDTH, url):
 
 
 # @st.cache_resource
-def get_custom_summary(_docs, _llm, custom_prompt, chain_type):
+def get_custom_summary(docs, llm, custom_prompt, chain_type):
     custom_prompt = custom_prompt + """:\n\n {text}"""
 
     map_prompt = """
@@ -48,15 +48,15 @@ def get_custom_summary(_docs, _llm, custom_prompt, chain_type):
 
     if chain_type == "map_reduce":
         chain = load_summarize_chain(
-            _llm,
+            llm,
             chain_type=chain_type,
             map_prompt=MAP_PROMPT,
             combine_prompt=COMBINE_PROMPT,
         )
     else:
-        chain = load_summarize_chain(_llm, chain_type=chain_type)
+        chain = load_summarize_chain(llm, chain_type=chain_type)
 
-    output = chain.run(_docs)
+    output = chain.run(docs)
     return output
 
 
@@ -119,8 +119,8 @@ def main():
                 resize_video(DEFAULT_WIDTH=120, url=input_url)
 
             summarized_video = get_custom_summary(
-                _docs=corpus,
-                _llm=llm,
+                docs=corpus,
+                llm=llm,
                 custom_prompt=input_user_prompt,
                 chain_type=chain_type,
             )
