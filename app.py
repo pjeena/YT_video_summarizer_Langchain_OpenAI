@@ -20,7 +20,7 @@ import time
 import pandas as pd
 
 load_dotenv()
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+#OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 
 def resize_video(DEFAULT_WIDTH, url):
