@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import xmltodict
 import yaml
 import os
 import glob
@@ -9,8 +8,8 @@ from langchain.llms import OpenAI
 from langchain.chains.summarize import load_summarize_chain
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import os
-import googleapiclient.discovery
-from furl import furl
+#import googleapiclient.discovery
+#from furl import furl
 import re
 from dotenv import load_dotenv
 
