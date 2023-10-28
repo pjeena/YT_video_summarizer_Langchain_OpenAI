@@ -108,10 +108,11 @@ def main():
         "ChatGPT Temperature", min_value=0.0, max_value=1.0, step=0.1, value=0.0
     )
 
-    llm = OpenAI(temperature=temperature, openai_api_key=OPENAI_API_KEY)
+#    llm = OpenAI(temperature=temperature, openai_api_key=OPENAI_API_KEY)
 
     if input_url != "":
         if st.button("Summarize"):
+            llm = OpenAI(temperature=temperature, openai_api_key=OPENAI_API_KEY)
             corpus = get_corpus(
                 url=input_url, chunk_size=chunk_size, chunk_overlap=chunk_overlap
             )
