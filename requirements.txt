@@ -4,6 +4,7 @@ pyarrow
 fastparquet
 langchain
 streamlit
+tiktoken
 youtube-transcript-api
 pytube
 openai
