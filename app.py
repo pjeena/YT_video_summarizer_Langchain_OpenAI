@@ -14,6 +14,7 @@ from langchain.tools import BaseTool
 import requests
 import json
 from langchain.schema import SystemMessage
+from fastapi import FastAPI
 import streamlit as st
 from src.utils import get_transcript_from_video_url, get_summary, get_comments_dataframe
 import time
@@ -33,7 +34,7 @@ def resize_video(DEFAULT_WIDTH, url):
     container.video(data=url)
 
 
-@st.cache_resource
+# @st.cache_resource
 def get_custom_summary(_docs, _llm, custom_prompt, chain_type):
     custom_prompt = custom_prompt + """:\n\n {text}"""
 
@@ -72,15 +73,23 @@ def get_corpus(url, chunk_size, chunk_overlap):
 
 
 def main():
+    hide_streamlit_style = """
+    <style>
+        #root > div:nth-child(1) > div > div > div > div > section > div {padding-top: 0rem;}
+    </style>
+
+    """
+    st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
     st.markdown(
         "<h1 style='text-align: center; color: red;'>Summarize YouTube Video </>",
         unsafe_allow_html=True,
     )
     # st.markdown("<h3 style='text-align: center; color: grey;'>Built by <a href='https://github.com/pjeena'>Piyush </a></h3>", unsafe_allow_html=True)
-    st.markdown(
-        "<h4 style='text-align: center; color:red;'>Enter your URL and Prompt👇</h4>",
-        unsafe_allow_html=True,
-    )
+    #    st.markdown(
+    #        "<h4 style='text-align: center; color:red;'>Enter your URL and Prompt👇</h4>",
+    #        unsafe_allow_html=True,
+    #    )
 
     chain_type = st.sidebar.selectbox("Chain Type", ["map_reduce", "stuff", "refine"])
     chunk_size = st.sidebar.slider(
@@ -92,6 +101,9 @@ def main():
 
     input_url = st.text_input("Enter a URL")
     input_user_prompt = st.text_input("Enter a prompt")
+    OPENAI_API_KEY = st.text_input(
+        "OpenAI API Key", key="chatbot_api_key", type="password"
+    )
 
     temperature = st.sidebar.number_input(
         "ChatGPT Temperature", min_value=0.0, max_value=1.0, step=0.1, value=0.0
@@ -106,16 +118,17 @@ def main():
             )
             with st.sidebar:
                 resize_video(DEFAULT_WIDTH=120, url=input_url)
-            #            summarized_video = get_custom_summary(
-            #                _docs=corpus,
-            #                _llm=llm,
-            #                custom_prompt=input_user_prompt,
-            #                chain_type=chain_type,
-            #            )
-            summarized_video = "yeah"
+
+            summarized_video = get_custom_summary(
+                _docs=corpus,
+                _llm=llm,
+                custom_prompt=input_user_prompt,
+                chain_type=chain_type,
+            )
+            #            summarized_video = "yeah"
             video_details = get_transcript_from_video_url(input_url)[0].metadata
             st.markdown("**:red[Title]** : *{}*".format(video_details["title"]))
-            st.markdown("**:red[Summary]** : *{}*".format(summarized_video))
+            st.markdown("**:red[Summary]** : {}".format(summarized_video))
 
     else:
         st.markdown("")
