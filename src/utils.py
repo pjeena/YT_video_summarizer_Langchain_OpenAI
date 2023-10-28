@@ -13,12 +13,12 @@ import os
 import re
 from dotenv import load_dotenv
 
-load_dotenv()
+#load_dotenv()
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
-API_SERVICE_NAME = "youtube"
-API_VERSION = "v3"
+#OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+#YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
+#API_SERVICE_NAME = "youtube"
+#API_VERSION = "v3"
 
 def get_transcript_from_video_url(url_link):
     loader = YoutubeLoader.from_youtube_url(url_link, add_video_info=True)
