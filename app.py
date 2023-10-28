@@ -14,7 +14,6 @@ from langchain.tools import BaseTool
 import requests
 import json
 from langchain.schema import SystemMessage
-from fastapi import FastAPI
 import streamlit as st
 from src.utils import get_transcript_from_video_url, get_summary, get_comments_dataframe
 import time
