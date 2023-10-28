@@ -1,0 +1,10 @@
+python-dotenv
+pandas
+pyarrow
+fastparquet
+langchain
+streamlit
+youtube-transcript-api
+pytube
+openai
+streamlit
